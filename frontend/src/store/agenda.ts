@@ -1,24 +1,28 @@
 import { defineStore } from "pinia";
 import Agenda from "../lib/agenda";
-import { computed, ref, h, Component } from "vue";
-import { NIcon } from 'naive-ui'
-import { Settings } from '@vicons/carbon'
+import {
+  computed, ref,
+  // h, Component
+} from "vue";
+// import { NIcon } from 'naive-ui'
+// import { Settings } from '@vicons/carbon'
 
 import { list_agendas } from "../api/agenda";
 
-function renderIcon (icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) })
-}
+// function renderIcon (icon: Component) {
+//   return () => h(NIcon, null, { default: () => h(icon) })
+// }
 
-function gen_agenda_sub_nemu(id: number| undefined): any[] {
-  return [
-    {
-      label: '设置',
-      key: `${id}-setting`,
-      icon: renderIcon(Settings)
-    }
-  ]
-}
+// function gen_agenda_sub_nemu(id: number| undefined): any[] {
+//   return [
+//     {
+//       label: '设置',
+//       key: `${id}-setting`,
+//       icon: renderIcon(Settings)
+//     }
+//   ]
+// }
+
 export const useAgendaStore = defineStore('agenda', () => {
   const _agendas = ref<Agenda []>([]);
 
@@ -33,7 +37,7 @@ export const useAgendaStore = defineStore('agenda', () => {
     }))
   })
 
-  async function LIST_AGENDAS(obj: {
+  async function LIST_AGENDAS(_obj: {
   }) {
     let agendas = await list_agendas()
     // console.log(agendas);
