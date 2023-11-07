@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, h, Component, computed } from "vue";
+import { ref, computed } from "vue";
 import Status from '../lib/status';
 import Task from "../lib/task"
 
