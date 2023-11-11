@@ -48,12 +48,12 @@ async fn list(req: &mut Request, depot: &mut Depot) -> Result<Json<Vec<Model>>> 
     let agenda_id = req.param::<i32>("agenda_id").unwrap_or_default();
 
     let _ids: Vec<i32> = req.query("ids").unwrap_or(vec![]);
-    let page = req.query("page").unwrap_or(1);
-    let tasks_per_page = req
-        .query("posts_per_page")
-        .unwrap_or(5);
+    // let page = req.query("page").unwrap_or(1);
+    // let tasks_per_page = req
+    //     .query("posts_per_page")
+    //     .unwrap_or(5);
 
-    let (tasks, _num_pages) = Query::find_tasks_in_page(&state.conn, page, agenda_id, vec![], tasks_per_page)
+    let tasks = Query::find_all_tasks(&state.conn, agenda_id, vec![])
     .await
     .expect("Cannot find tasks in page");
 

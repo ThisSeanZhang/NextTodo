@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 import { update_task } from "../../api/task";
 import useConfigStore from "../../store/config";
 
@@ -20,7 +20,7 @@ const show = computed({
 const title = ref('创建')
 
 const task = ref(configStore.GET_DEFAULT_TASK({ belong_agenda_id: props.belong_agenda_id }))
-watch(() => props.id, () => {
+watchEffect(() => {
   title.value = props.id == undefined ? '创建' : '编辑';
   task.value = configStore.GET_DEFAULT_TASK({ belong_agenda_id: props.belong_agenda_id })
 })
