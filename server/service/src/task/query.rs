@@ -46,4 +46,22 @@ impl Query {
         // Fetch paginated tasks
         paginator.fetch_page(page - 1).await.map(|p| (p, num_pages))
     }
+
+    pub async fn find_all_tasks(
+        db: &DbConn,
+        belong_agenda_id: i32,
+        ids: Vec<i32>,
+    ) -> Result<Vec<task::Model>, DbErr> {
+        // Setup paginator
+        let paginator = Task::find()
+            .filter(task::Column::BelongAgendaId.eq(belong_agenda_id));
+        let paginator = if ids.len() > 0 {
+            paginator.filter(task::Column::Id.is_in(ids))
+        } else {
+            paginator
+        };
+       paginator
+        .order_by_asc(task::Column::Id)
+        .all(db).await
+    }
 }
