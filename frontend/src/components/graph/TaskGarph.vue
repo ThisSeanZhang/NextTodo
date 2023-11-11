@@ -61,8 +61,8 @@ watchEffect(async () => {
     for(const edge of realates) {
       lines.push({
         // id: `e${edge.child_id}-${edge.parent_id}`,
-        source: `${edge.child_id}`,
-        target: `${edge.parent_id}`,
+        source: `${edge.parent_id}`,
+        target: `${edge.child_id}`,
       })
     }
     
