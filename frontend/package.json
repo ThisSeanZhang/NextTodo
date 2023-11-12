@@ -9,11 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-markdown": "^6.2.2",
+    "@codemirror/theme-one-dark": "^6.1.2",
     "@vue-flow/core": "^1.23.0",
     "@vue-flow/minimap": "^1.2.0",
     "axios": "^1.4.0",
+    "codemirror": "^6.0.1",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
+    "vue-codemirror6": "1.1.27",
+    "vue-markdown-wasm": "^0.3.12",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {

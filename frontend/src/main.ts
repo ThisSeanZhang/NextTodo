@@ -53,6 +53,7 @@ import {
   NTag,
   NDescriptions,
   NDescriptionsItem,
+  NSwitch,
 } from 'naive-ui'
 
 const naive = create({
@@ -102,6 +103,8 @@ components: [
   NTag,
   NDescriptions,
   NDescriptionsItem,
+  NSwitch,
+  NIcon,
 ]
 })
 

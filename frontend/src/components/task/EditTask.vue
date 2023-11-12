@@ -2,6 +2,7 @@
 import { ref, computed, watchEffect } from 'vue';
 import { update_task } from "../../api/task";
 import useConfigStore from "../../store/config";
+import MilkdownEditor from "../common/MilkdownEditor.vue";
 
 const configStore = useConfigStore();
 
@@ -78,14 +79,15 @@ function delete_task() {
             />
           </n-form-item-gi>
           <n-form-item-gi :span="24" label="内容">
-            <n-input
+            <MilkdownEditor v-model:value="task.content" />
+            <!-- <n-input
               type="textarea"
               :autosize="{
                 minRows: 4,
                 maxRows: 6
               }"
               v-model:value="task.content"
-            />
+            /> -->
           </n-form-item-gi>
 
           <n-form-item-gi :span="24" label="Deadline">

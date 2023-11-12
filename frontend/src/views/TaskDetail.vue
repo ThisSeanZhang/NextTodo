@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { 
   ListChecked,
   // Thumbnail2,
   AirportLocation,
+  Edit,
+  EditOff,
+  Checkmark,
 } from "@vicons/carbon"
 import CardTask from '../components/task/CardTask.vue';
+import MilkdownEditor from "../components/common/MilkdownEditor.vue";
+import VueMarkdown from 'vue-markdown-wasm';
 import useConfigStore from "../store/config";
 import Task from '../lib/task';
 import {
@@ -33,6 +38,18 @@ const task = ref(new Task({ status: 0 }))
 
 const relate_taks = ref<Map<number, Task>>(new Map());
 
+const edit_model = ref<Boolean>(false);
+const temp_edit = ref<Task>(new Task(task.value));
+watch(() => edit_model.value, () => {
+  temp_edit.value = new Task(task.value);
+})
+async function confirm_edit() {
+  if (temp_edit.value.id !== undefined) {
+    await update_task(temp_edit.value);
+    task.value = temp_edit.value;
+  }
+  edit_model.value = false;
+}
 const request_info = computed(() => {
   let agenda_id, task_id;
   if (typeof route.params.agenda_id === "string") {
@@ -160,13 +177,21 @@ function renderIcon(status: Status): any {
                 </n-space>
                 
                 <n-space>
+                  <!-- <n-button text @click="edit_model = !edit_model">
+                    <template #icon>
+                    <n-icon>
+                        <Edit />
+                    </n-icon>
+                    </template>
+                  </n-button> -->
+                  <!-- agenda graph -->
                   <n-button text @click="push_to(`/agendas/${task.belong_agenda_id}/graph`)">
                     <template #icon>
                     <n-icon>
                         <AirportLocation />
                     </n-icon>
                     </template>
-                </n-button>
+                  </n-button>
                 <!-- <n-button text>
                     <template #icon>
                     <n-icon>
@@ -174,6 +199,7 @@ function renderIcon(status: Status): any {
                     </n-icon>
                     </template>
                 </n-button> -->
+                  <!-- agenda list -->
                   <n-button text @click="push_to(`/agendas/${task.belong_agenda_id}/tasks`)">
                       <template #icon>
                       <n-icon>
@@ -181,6 +207,7 @@ function renderIcon(status: Status): any {
                       </n-icon>
                       </template>
                   </n-button>
+
                 </n-space>
               </n-space>
             </template>
@@ -211,12 +238,64 @@ function renderIcon(status: Status): any {
               </span>
             </n-descriptions-item>
           </n-descriptions>
-          <n-input v-model:value="task.title" type="text" placeholder="基本的 Input" />
-          <n-input
-            v-model:value="task.content"
-            type="textarea"
-            placeholder="基本的 Textarea"
-          />
+
+          <n-thing v-if="!edit_model">
+            <template #header>
+              {{ task.title }}
+            </template>
+            <template #header-extra>
+                <!-- edit -->
+                
+                <n-button text @click="edit_model = !edit_model">
+                    <template #icon>
+                    <n-icon>
+                        <Edit />
+                    </n-icon>
+                    </template>
+                  </n-button>
+
+                <!-- <n-switch :round="false" v-model="edit_model" size="small">
+                  <template #icon>
+                    <n-icon :component="Edit" />
+                  </template>
+                </n-switch> -->
+            </template>
+            <vue-markdown v-model="task.content" />
+          </n-thing>
+
+          <n-thing v-else>
+            <template  #header>
+            </template>
+            <n-input style="margin-bottom: 4px;" v-model:value="temp_edit.title" type="text" placeholder="编辑标题" />
+
+            <MilkdownEditor v-model:value="temp_edit.content" />
+            <!-- <n-input
+              v-model:value="task.content"
+              type="textarea"
+              placeholder="基本的 Textarea"
+            /> -->
+            <template #action>
+              <n-space justify="end">
+                <n-button size="small" @click="edit_model = false">
+                  <template #icon>
+                    <n-icon>
+                      <EditOff />
+                    </n-icon>
+                  </template>
+                  取消
+                </n-button>
+                <n-button size="small" @click="confirm_edit">
+                  <template #icon>
+                    <n-icon>
+                      <Checkmark />
+                    </n-icon>
+                  </template>
+                  保存
+                </n-button>
+              </n-space>
+            </template>
+          </n-thing>
+          
           <n-divider title-placement="left">
             标签
           </n-divider>
