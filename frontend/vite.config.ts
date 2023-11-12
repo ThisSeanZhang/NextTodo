@@ -13,4 +13,22 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // ...
+          codemirror: [
+            // Split CodeMirror code.
+            'vue-codemirror6'
+          ],
+          'codemirror-lang': [
+            // Add the following as needed.
+            '@codemirror/lang-markdown',
+          ],
+          // ...
+        },
+      },
+    },
+  },
 })
