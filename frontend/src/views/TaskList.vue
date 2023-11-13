@@ -83,6 +83,10 @@ watchEffect(() => {
   expanded_names.value = result
 })
 
+async function refresh_tasks() {
+  let data = await list_task(belong_agenda_id.value);
+  tasks.value = data;
+}
 </script>
 <template>
   <n-layout content-style="height: 100%; position: relative;">
@@ -154,6 +158,6 @@ watchEffect(() => {
     <n-layout position="absolute" style="top: 60px;" v-else-if="current_show === Panel.Graph" >
       <TaskGarph :agenda_id="belong_agenda_id" :tasks="tasks"></TaskGarph>
     </n-layout>
-    <EditTask v-model:show="show_task_edit" :belong_agenda_id="belong_agenda_id"/>
+    <EditTask v-model:show="show_task_edit" @update:show="refresh_tasks" :belong_agenda_id="belong_agenda_id"/>
   </n-layout>
 </template>
