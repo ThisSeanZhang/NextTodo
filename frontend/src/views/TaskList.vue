@@ -131,7 +131,7 @@ watchEffect(() => {
               <!-- extra button -->
             </template>
             <!-- <ExhibitListItem v-if="(tasks_map.get(status.id)?.length ?? 0) > 0" v-for="task in tasks_map.get(status.id)" :task="task"> </ExhibitListItem> -->
-            <n-grid v-if="(tasks_map.get(status.id)?.length ?? 0) > 0" x-gap="12" :cols="4">
+            <n-grid v-if="(tasks_map.get(status.id)?.length ?? 0) > 0" x-gap="12" y-gap="12" cols="1 400:1 812:2 1236:3 1624:4 1920:4">
               <n-grid-item v-for="task in tasks_map.get(status.id)" >
                 <CardTask :task="task"></CardTask>
               </n-grid-item>

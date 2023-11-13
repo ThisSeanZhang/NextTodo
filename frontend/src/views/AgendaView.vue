@@ -17,7 +17,7 @@ onMounted(async () => {
 
 <template>
 <n-layout>
-  <n-grid x-gap="12" :cols="4">
+  <n-grid x-gap="12" y-gap="12" cols="1 400:1 812:2 1236:3 1624:4 1920:4" >
     <n-grid-item >
         <n-card hoverable class="agenda-card agenda-card-add" @click="show_agenda_edit = true">
           <n-empty description="添加一个">
